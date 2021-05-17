@@ -1,0 +1,24 @@
+rootProject.name = "TencentShadow"
+//if (!System.getenv().containsKey("ANDROID_HOME")) {
+//    throw new RuntimeException("未定义ANDROID_HOME环境变量。" +
+//            "原因：Android Studio目前不支持自动为复合构建中的子构建自动创建local.properties文件。" +
+//            "注意：新增环境变量后，一般不会立即生效，最简单的办法是重启电脑。")
+//}
+includeSample()
+def includeSample() {
+    include 'introduce-shadow-lib',
+            'shadow-host-app',
+            'shadow-manager',
+            'app',
+            'sploader',
+            'spruntime'
+
+    project(':introduce-shadow-lib').projectDir = file('shadow-host/introduce-shadow-lib')
+    project(':shadow-host-app').projectDir = file('shadow-host/shadow-host-app')
+
+    project(':shadow-manager').projectDir = file('shadow-manager')
+
+    project(':app').projectDir = file('shadow-plugin-roject/app')
+    project(':sploader').projectDir = file('shadow-plugin-roject/sploader')
+    project(':spruntime').projectDir = file('shadow-plugin-roject/spruntime')
+}
