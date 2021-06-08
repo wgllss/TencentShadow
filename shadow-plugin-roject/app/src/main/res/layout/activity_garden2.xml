@@ -19,27 +19,35 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
         android:layout_height="match_parent">
 
-        <fragment
-            android:id="@+id/nav_host"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_garden"/>
+
 <TextView
     android:id="@+id/txt_bind"
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:gravity="center"
     android:layout_gravity="center"
-    android:text="dafhjadhfjaf"
+    android:text="修改插件中内容"
     android:textSize="20dp"
     android:textColor="#FFFFFF"
-    android:background="#ffe000"/>
-    </FrameLayout>
+    android:background="#FF0000"/>
+
+        <TextView
+            android:id="@+id/txt_bind2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="修改插件中内容"
+            android:layout_marginTop="50dp"
+            android:textSize="20dp"
+            android:textColor="#FFFFFF"
+            android:background="#FF0000"/>
+    </LinearLayout>
 
 </layout>

@@ -1,0 +1,70 @@
+apply plugin: 'com.android.library'
+//common_code 下放置所有公用代码,就算其他行业，其他公司，该下面代码通用,一般含有纯java代码，不含有布局和资源文件等，不包含公司通用代码
+//如果有使用插件化，默认不带资源 理论上使用了插件化 该模块改动 需要升级宿主版本
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode 1000
+        versionName "1.0.00"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        disable 'GoogleAppIndexingWarning'
+//        baseline file("lint-baseline.xml") // your choice of filename/path here
+        abortOnError false
+        ignoreWarnings true
+
+    }
+
+}
+
+
+
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+//    implementation libSupportAppcompat_v7
+//    implementation libSupportRecyclerView
+    implementation 'androidx.appcompat:appcompat:1.0.0-alpha1'
+    implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
+
+//    compileOnly 'io.reactivex.rxjava2:rxandroid:2.1.1'
+//    compileOnly 'io.reactivex.rxjava2:rxjava:2.1.1'
+//    compileOnly 'com.squareup.retrofit2:retrofit:2.5.0'
+//    compileOnly 'com.squareup.retrofit2:converter-scalars:2.5.0'
+//    compileOnly 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+//    compileOnly 'com.squareup.okhttp3:logging-interceptor:4.0.0'
+//    compileOnly 'com.squareup.retrofit2:converter-gson:2.5.0'
+//    compileOnly 'com.squareup.retrofit2:converter-scalars:2.1.0'
+//    compileOnly 'com.squareup.okio:okio:2.2.2'
+//    compile 'com.tencent.bugly:crashreport:3.0.1'
+//    //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
+//    compile 'com.tencent.bugly:nativecrashreport:3.7.1'
+
+//    compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
+}
+
+task makeJar(type: Copy) {
+    delete 'build/libs/mysdk.jar'
+    from('build/intermediates/bundles/release/')
+    into('build/libs/')
+    include('classes.jar')
+    rename('classes.jar', 'mysdk.jar')
+}
+
+makeJar.dependsOn(build)

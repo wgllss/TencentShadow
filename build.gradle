@@ -100,6 +100,18 @@ spotless {
     }
 }
 
+ext {
+//    compileSdkVersion = 28
+//    buildToolsVersion = "28.0.2"
+//    minSdkVersion = 19
+//    targetSdkVersion = 28
+//    supportVersion = "28.1.0"
+
+    libSupportAppcompat_v7 = 'androidx.appcompat:appcompat:1.1.0'
+    libSupportRecyclerView = 'androidx.recyclerview:recyclerview:1.1.0'
+//    libSupportdesign = 'com.google.android.material:material:1.1.0'
+}
+
 
 
 //    adb push build/plugin-debug.zip /data/local/tmp

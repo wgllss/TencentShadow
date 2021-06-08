@@ -40,7 +40,7 @@
             android:process=":plugin" />
 
         <provider
-            android:authorities="com.tencent.shadow.contentprovider.authority.dynamic"
+            android:authorities="com.tencent.shadow.contentprovider.authority.dynamic1"
             android:name="com.tencent.shadow.core.runtime.container.PluginContainerContentProvider" />
         <!--container 注册 end -->
     </application>

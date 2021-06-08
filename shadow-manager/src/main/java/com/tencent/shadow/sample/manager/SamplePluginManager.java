@@ -8,6 +8,7 @@ import android.os.*;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+
 import com.tencent.shadow.core.manager.installplugin.InstalledPlugin;
 import com.tencent.shadow.dynamic.host.EnterCallback;
 import com.tencent.shadow.dynamic.loader.PluginServiceConnection;
@@ -55,12 +56,11 @@ public class SamplePluginManager extends FastPluginManager {
     @Override
     public void enter(final Context context, long fromId, Bundle bundle, final EnterCallback callback) {
         if (fromId == Constant.FROM_ID_START_ACTIVITY) {
-            bundle.putString(Constant.KEY_PLUGIN_ZIP_PATH, "/data/local/tmp/plugin-debug.zip");
             bundle.putString(Constant.KEY_PLUGIN_PART_KEY, "sample-plugin");
             bundle.putString(Constant.KEY_ACTIVITY_CLASSNAME, "com.google.samples.apps.sunflower.Garden2Activity");
             onStartActivity(context, bundle, callback);
         } else if (fromId == Constant.FROM_ID_CALL_SERVICE) {
-            callPluginService(context);
+            callPluginService(context, bundle);
         } else {
             throw new IllegalArgumentException("不认识的fromId==" + fromId);
         }
@@ -113,8 +113,9 @@ public class SamplePluginManager extends FastPluginManager {
         });
     }
 
-    private void callPluginService(final Context context) {
-        final String pluginZipPath = "/data/local/tmp/plugin-debug.zip";
+    private void callPluginService(final Context context, Bundle bundle) {
+//        final String pluginZipPath = "/data/local/tmp/plugin-debug.zip";
+        final String pluginZipPath = bundle.getString(Constant.KEY_PLUGIN_ZIP_PATH);
         final String partKey = "sample-plugin";
         final String className = "com.tencent.shadow.sample.plugin.MyService";
 

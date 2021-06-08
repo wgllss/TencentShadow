@@ -3,6 +3,7 @@ package com.tencent.shadow.sample.introduce_shadow_lib;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
+
 import com.tencent.shadow.core.common.LoggerFactory;
 import com.tencent.shadow.dynamic.host.DynamicPluginManager;
 import com.tencent.shadow.dynamic.host.DynamicRuntime;
@@ -27,16 +28,17 @@ public class InitApplication {
     public static void onApplicationCreate(Application application) {
         //Log接口Manager也需要使用，所以主进程也初始化。
         LoggerFactory.setILoggerFactory(new AndroidLoggerFactory());
-
         if (isProcess(application, ":plugin")) {
             //在全动态架构中，Activity组件没有打包在宿主而是位于被动态加载的runtime，
             //为了防止插件crash后，系统自动恢复crash前的Activity组件，此时由于没有加载runtime而发生classNotFound异常，导致二次crash
             //因此这里恢复加载上一次的runtime
             DynamicRuntime.recoveryRuntime(application);
         }
+    }
 
+    public static void onApplicationCreate(File manager) {
         FixedPathPmUpdater fixedPathPmUpdater
-                = new FixedPathPmUpdater(new File("/data/local/tmp/shadow-manager-debug.apk"));
+                = new FixedPathPmUpdater(manager);
         boolean needWaitingUpdate
                 = fixedPathPmUpdater.wasUpdating()//之前正在更新中，暗示更新出错了，应该放弃之前的缓存
                 || fixedPathPmUpdater.getLatest() == null;//没有本地缓存
