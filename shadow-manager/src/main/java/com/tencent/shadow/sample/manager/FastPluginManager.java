@@ -100,7 +100,8 @@ public abstract class FastPluginManager extends PluginManagerThatUseDynamicLoade
         if (!(context instanceof Activity)) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
-        context.startActivity(intent);
+        mPluginLoader.startActivityInPluginProcess(intent);
+//        context.startActivity(intent);
     }
 
     public Intent convertActivityIntent(InstalledPlugin installedPlugin, String partKey, Intent pluginIntent) throws RemoteException, TimeoutException, FailedException {

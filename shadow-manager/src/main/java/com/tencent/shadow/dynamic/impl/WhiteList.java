@@ -6,6 +6,10 @@ package com.tencent.shadow.dynamic.impl;
  * PluginManager可以加载宿主中位于白名单内的类
  */
 public interface WhiteList {
+//    String[] sWhiteList = new String[]
+//            {"com.atar.host_lib",
+//             "com.atar.tencentshadow.activity"
+//            };
     String[] sWhiteList = new String[]
             {
             };

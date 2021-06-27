@@ -75,10 +75,6 @@ public class SettingIPActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.txt_save:
-                File file = new File("/data/local/tmp/shadow-manager-debug.apk");
-                ShowLog.e(TAG, "目录：" + file.getAbsolutePath());
-                ShowLog.e(TAG, "目录SD：" + Config.strDownloadDir);
-
                 String str = edt_text.getText().toString();
                 if (TextUtils.isEmpty(str)) {
                     CommonToast.show("输入为空");
@@ -125,7 +121,7 @@ public class SettingIPActivity extends AppCompatActivity implements View.OnClick
     }
 
     public void setIP() {
-        ip = AppConfigModel.getInstance().getString(Config.SAVE_HOST_IP_KEY, ip);
+        ip = AppConfigModel.getInstance().getString(Contans.HOST_KEY, ip);
         url = ip + ":8080/assets/apk/plugins/plugin-debug.zip";
         manager_url = ip + ":8080/assets/apk/plugins/shadow-manager-debug.apk";
         if (!url.contains("http://")) {
