@@ -28,6 +28,9 @@ public class MainActivity extends Activity {
 
     private String TAG = MainActivity.class.getSimpleName();
 
+    public static final int FROM_ID_START_ACTIVITY = 1001;
+    public static final int FROM_ID_CALL_SERVICE = 1002;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +51,41 @@ public class MainActivity extends Activity {
             }
         });
         linearLayout.addView(settingButton);
+
+//        Button button = new Button(this);
+//        button.setText("启动插件");
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(final View v) {
+//                v.setEnabled(false);//防止点击重入
+//
+//                PluginManager pluginManager = InitApplication.getPluginManager();
+//                Bundle bundle = new Bundle();
+//
+//                String pluginZipPath = Contans.strDownloadDir + Contans.str_u_current_plugin_name;
+//                ShowLog.e(TAG, pluginZipPath);
+//                bundle.putString("pluginZipPath", pluginZipPath);
+//                pluginManager.enter(com.atar.tencentshadow.activity.MainActivity.this, FROM_ID_START_ACTIVITY, bundle, new EnterCallback() {
+//                    @Override
+//                    public void onShowLoadingView(View view) {
+//                        com.atar.tencentshadow.activity.MainActivity.this.setContentView(view);//显示Manager传来的Loading页面
+//                    }
+//
+//                    @Override
+//                    public void onCloseLoadingView() {
+//                        com.atar.tencentshadow.activity.MainActivity.this.setContentView(linearLayout);
+//                    }
+//
+//                    @Override
+//                    public void onEnterComplete() {
+//                        v.setEnabled(true);
+//                    }
+//                });
+//            }
+//        });
+//
+//        linearLayout.addView(textView);
+//        linearLayout.addView(button);
 
         setContentView(linearLayout);
     }

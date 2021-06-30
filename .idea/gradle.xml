@@ -13,6 +13,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/common_download_code" />
+            <option value="$PROJECT_DIR$/host-lib" />
             <option value="$PROJECT_DIR$/shadow-host/introduce-shadow-lib" />
             <option value="$PROJECT_DIR$/shadow-host/shadow-host-app" />
             <option value="$PROJECT_DIR$/shadow-manager" />

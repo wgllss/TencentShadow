@@ -30,5 +30,6 @@ android {
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation project(':common_download_code')
+    implementation project(':host-lib')
     implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
 }

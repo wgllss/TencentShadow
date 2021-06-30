@@ -12,13 +12,15 @@ def includeSample() {
             'common_download_code',
             'app',
             'sploader',
-            'spruntime'
+            'spruntime',
+            'host-lib'
 
     project(':introduce-shadow-lib').projectDir = file('shadow-host/introduce-shadow-lib')
     project(':shadow-host-app').projectDir = file('shadow-host/shadow-host-app')
 
     project(':shadow-manager').projectDir = file('shadow-manager')
     project(':common_download_code').projectDir = file('common_download_code')
+    project(':host-lib').projectDir = file('host-lib')
 
     project(':app').projectDir = file('shadow-plugin-roject/app')
     project(':sploader').projectDir = file('shadow-plugin-roject/sploader')

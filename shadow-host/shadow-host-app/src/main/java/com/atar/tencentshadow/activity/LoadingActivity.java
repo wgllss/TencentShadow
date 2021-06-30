@@ -120,22 +120,33 @@ public class LoadingActivity extends Activity implements DownloadFileListener {
         String pluginZipPath = Contans.strDownloadDir + Contans.str_u_current_plugin_name;
         ShowLog.e(TAG, pluginZipPath);
         bundle.putString("pluginZipPath", pluginZipPath);
-        pluginManager.enter(LoadingActivity.this, FROM_ID_START_ACTIVITY, bundle, new EnterCallback() {
-            @Override
-            public void onShowLoadingView(View view) {
+        try {
+            pluginManager.enter(LoadingActivity.this, FROM_ID_START_ACTIVITY, bundle, new EnterCallback() {
+                @Override
+                public void onShowLoadingView(View view) {
 //                FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 //                lp.gravity.
 //                com.atar.tencentshadow.activity.LoadingActivity.this.addContentView(view, lp);//显示Manager传来的Loading页面
-            }
+                }
 
-            @Override
-            public void onCloseLoadingView() {
+                @Override
+                public void onCloseLoadingView() {
 //                        com.atar.tencentshadow.activity.MainActivity.this.setContentView(linearLayout);
-            }
+                }
 
-            @Override
-            public void onEnterComplete() {
-            }
-        });
+                @Override
+                public void onEnterComplete() {
+                    chandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ShowLog.e(TAG, "overridePendingTransition");
+                            overridePendingTransition(R.anim.anim_alpha_121, R.anim.anim_alpha_121);
+                        }
+                    });
+                }
+            });
+        } catch (Exception e) {
+            MainActivity.startMainActivity(LoadingActivity.this);
+        }
     }
 }

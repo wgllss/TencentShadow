@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.atar.bridge.BridgeInteface;
 import com.atar.tencentshadow.R;
 import com.atar.tencentshadow.configs.Config;
 import com.common.framework.appconfig.AppConfigModel;
