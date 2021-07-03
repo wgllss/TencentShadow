@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.atar.bridge.BridgeInteface;
+import com.atar.bridge.BridgeManager;
 import com.atar.tencentshadow.R;
 import com.atar.tencentshadow.configs.Config;
 import com.common.framework.appconfig.AppConfigModel;
@@ -23,12 +23,12 @@ import com.common.framework.download.DownLoadFileBean;
 import com.common.framework.download.DownLoadFileManager;
 import com.common.framework.interfaces.HandlerListener;
 import com.common.framework.plugins.Contans;
+import com.common.framework.plugins.ServerConfig;
 import com.common.framework.services.DownLoadSevice;
+import com.common.framework.stack.ActivityManager;
 import com.common.framework.utils.ServiceUtil;
 import com.common.framework.utils.ShowLog;
 import com.common.framework.widget.CommonToast;
-
-import java.io.File;
 
 public class SettingIPActivity extends AppCompatActivity implements View.OnClickListener, HandlerListener {
 
@@ -51,6 +51,7 @@ public class SettingIPActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityManager.getActivityManager().pushActivity(this);
         ServiceUtil.startService(this, DownLoadSevice.class);
         DownLoadSevice.setGetServerConfig(this);
         setContentView(R.layout.activity_setting_i_p);
@@ -64,7 +65,7 @@ public class SettingIPActivity extends AppCompatActivity implements View.OnClick
         txt_download.setOnClickListener(this);
         txt_download_manager.setOnClickListener(this);
         setIP();
-        ip = AppConfigModel.getInstance().getString(Contans.HOST_KEY, "192.168.96.84");
+        ip = ServerConfig.Config_IP;
         edt_text.setHint(url);
 
         //请求安装未知应用来源的权限
@@ -76,10 +77,6 @@ public class SettingIPActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.txt_save:
-                File file = new File("/data/local/tmp/shadow-manager-debug.apk");
-                ShowLog.e(TAG, "目录：" + file.getAbsolutePath());
-                ShowLog.e(TAG, "目录SD：" + Config.strDownloadDir);
-
                 String str = edt_text.getText().toString();
                 if (TextUtils.isEmpty(str)) {
                     CommonToast.show("输入为空");
@@ -126,7 +123,7 @@ public class SettingIPActivity extends AppCompatActivity implements View.OnClick
     }
 
     public void setIP() {
-        ip = AppConfigModel.getInstance().getString(Config.SAVE_HOST_IP_KEY, ip);
+        ip = AppConfigModel.getInstance().getString(Contans.HOST_KEY, ip);
         url = ip + ":8080/assets/apk/plugins/plugin-debug.zip";
         manager_url = ip + ":8080/assets/apk/plugins/shadow-manager-debug.apk";
         if (!url.contains("http://")) {

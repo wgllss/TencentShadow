@@ -7,12 +7,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.atar.bridge.BridgeInteface;
-import com.atar.bridge.HostCallBack;
+import com.atar.bridge.BridgeEnterInteface;
+import com.atar.bridge.BridgeExitInteface;
+import com.atar.bridge.BridgeManager;
 import com.google.samples.apps.sunflower.databinding.ActivityGarden2Binding;
+import com.google.samples.manager.ActivityManager;
 
 public class Garden2Activity extends AppCompatActivity {
     private ActivityGarden2Binding binding;
@@ -20,6 +23,7 @@ public class Garden2Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityManager.getActivityManager().pushActivity(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_garden2);
         binding.txtBind.setText("整单打发的发发的发发的啊发");
         binding.txtBind2.setText("8888");
@@ -27,12 +31,11 @@ public class Garden2Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                BridgeInteface bridgeInteface = new BridgeInteface();
-                bridgeInteface.startActivity(Garden2Activity.this, new HostCallBack() {
+                BridgeManager.getInstance().startActivity(Garden2Activity.this, "com.atar.tencentshadow.activity.SettingIPActivity", new BridgeEnterInteface() {
                     @Override
-                    public void onDo(Context context, Class cls) {
+                    public void startActivity(Context context, String s, Class aClass) {
                         try {
-                            Intent intent = new Intent(context, cls);
+                            Intent intent = new Intent(context, aClass);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                         } catch (Exception e) {
@@ -41,6 +44,13 @@ public class Garden2Activity extends AppCompatActivity {
                     }
                 });
 //                    onBackPressed();
+            }
+        });
+
+        binding.txtBind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
     }
@@ -57,15 +67,12 @@ public class Garden2Activity extends AppCompatActivity {
             Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
             exitTime = System.currentTimeMillis();
         } else {
-            new Thread() {
+            BridgeManager.getInstance().exit(new BridgeExitInteface() {
                 @Override
-                public void run() {
-                    super.run();
-                    Garden2Activity.this.finish();
-                    android.os.Process.killProcess(android.os.Process.myPid());
-                    System.exit(0); // 常规java、c#的标准退出法，返回值为0代表正常退出
+                public void exit() {
+                    ActivityManager.getActivityManager().exitApplication();
                 }
-            }.start();
+            });
         }
     }
 }

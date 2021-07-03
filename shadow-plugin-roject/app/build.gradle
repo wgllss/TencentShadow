@@ -89,8 +89,10 @@ dependencies {
     androidTestImplementation "com.google.truth:truth:$rootProject.truthVersion"
     testImplementation "junit:junit:$rootProject.junitVersion"
 
+//    implementation project(':common_download_code')
+
     //注意sample-host-lib要用compileOnly编译而不打包在插件中。在packagePlugin任务中配置hostWhiteList允许插件访问宿主的类。
-    compileOnly files("${project(":host-lib").getBuildDir()}/intermediates/aar_main_jar/debug/classes.jar")
+    compileOnly files("${project(":host-plugin-bridge-lib").getBuildDir()}/intermediates/aar_main_jar/debug/classes.jar")
 }
 
 apply plugin: 'com.tencent.shadow.plugin'

@@ -1,16 +1,20 @@
 package com.atar.tencentshadow.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 
+import com.atar.bridge.BridgeManager;
 import com.atar.tencentshadow.R;
 import com.common.framework.plugins.Contans;
 import com.common.framework.plugins.DownloadFileListener;
 import com.common.framework.plugins.DownloadPluginManager;
 import com.common.framework.services.DownLoadSevice;
+import com.common.framework.stack.ActivityManager;
 import com.common.framework.utils.ServiceUtil;
 import com.common.framework.utils.ShowLog;
 import com.tencent.shadow.dynamic.host.EnterCallback;
@@ -59,10 +63,23 @@ public class LoadingActivity extends Activity implements DownloadFileListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!this.isTaskRoot()) { // 判断该Activity是不是任务空间的源Activity，“非”也就是说是被系统重新实例化出来 //如果你就放在launcher Activity中话，这里可以直接return了
+            Intent mainIntent = getIntent();
+            String action = mainIntent.getAction();
+            if (mainIntent.hasCategory(Intent.CATEGORY_LAUNCHER) && action.equals(Intent.ACTION_MAIN)) {
+                finish();
+                return;// finish()之后该活动会继续执行后面的代码，你可以logCat验证，加return避免可能的exception
+            }
+        }
+
+        isLoaded = false;
+        isAutoSatrt = false;
+        ActivityManager.getActivityManager().pushActivity(this);
 //        setContentView(R.layout.welcome);
 
         ServiceUtil.startService(this, DownLoadSevice.class);
         DownloadPluginManager.getInstance()
+                .init()
                 .setIsHasNewFileListener(this)
                 .checkHasNewFileVersion();
 
@@ -141,6 +158,7 @@ public class LoadingActivity extends Activity implements DownloadFileListener {
                         public void run() {
                             ShowLog.e(TAG, "overridePendingTransition");
                             overridePendingTransition(R.anim.anim_alpha_121, R.anim.anim_alpha_121);
+//                            ActivityManager.getActivityManager().finishActivity(LoadingActivity.class);
                         }
                     });
                 }

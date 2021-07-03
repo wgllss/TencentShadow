@@ -45,6 +45,12 @@ public class DownloadPluginManager {
         return instance;
     }
 
+    public  DownloadPluginManager init(){
+        downLoadPluginNum = 0;
+        loadFileCount = 0;
+        return instance;
+    }
+
     public DownloadPluginManager setIsHasNewFileListener(DownloadFileListener isHasNewFileListener) {
         this.isHasNewFileListener = isHasNewFileListener;
         return instance;
