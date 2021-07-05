@@ -88,6 +88,7 @@ dependencies {
     androidTestImplementation "androidx.work:work-testing:$rootProject.workVersion"
     androidTestImplementation "com.google.truth:truth:$rootProject.truthVersion"
     testImplementation "junit:junit:$rootProject.junitVersion"
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
 
 //    implementation project(':common_download_code')
 
@@ -135,7 +136,7 @@ shadow {
 
         runtimeApkProjectPath = 'shadow-plugin-roject/spruntime'
 
-        version = 4
+        version = 5
         compactVersion = [1, 2, 3]
         uuidNickName = "1.1.5"
     }

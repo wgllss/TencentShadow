@@ -1,14 +1,15 @@
 package com.atar.tencentshadow.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
-import com.atar.bridge.BridgeManager;
+import com.atar.bridge.Test;
 import com.atar.tencentshadow.R;
 import com.common.framework.plugins.Contans;
 import com.common.framework.plugins.DownloadFileListener;
@@ -24,8 +25,9 @@ import com.tencent.shadow.sample.introduce_shadow_lib.InitApplication;
 import java.io.File;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 
-public class LoadingActivity extends Activity implements DownloadFileListener {
+public class LoadingActivity extends FragmentActivity implements DownloadFileListener {
 
     private String TAG = LoadingActivity.class.getSimpleName();
 
@@ -84,6 +86,8 @@ public class LoadingActivity extends Activity implements DownloadFileListener {
                 .checkHasNewFileVersion();
 
         chandler.sendEmptyMessageDelayed(1, 5000);
+
+        Test.getInstance().test(this);
     }
 
     @Override
@@ -142,7 +146,7 @@ public class LoadingActivity extends Activity implements DownloadFileListener {
                 @Override
                 public void onShowLoadingView(View view) {
 //                FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//                lp.gravity.
+//                lp.gravity= Gravity.CENTER;
 //                com.atar.tencentshadow.activity.LoadingActivity.this.addContentView(view, lp);//显示Manager传来的Loading页面
                 }
 

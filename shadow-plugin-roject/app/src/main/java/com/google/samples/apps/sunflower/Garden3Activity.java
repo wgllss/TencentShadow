@@ -1,9 +1,5 @@
 package com.google.samples.apps.sunflower;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,11 +11,19 @@ import com.atar.bridge.BridgeEnterInteface;
 import com.atar.bridge.BridgeExitInteface;
 import com.atar.bridge.BridgeManager;
 import com.atar.bridge.Test;
-import com.google.samples.apps.sunflower.databinding.ActivityGarden2Binding;
+import com.google.samples.apps.sunflower.databinding.ActivityGarden3Binding;
 import com.google.samples.manager.ActivityManager;
+import com.google.samples.viewmodels.TestViewModel;
 
-public class Garden2Activity extends AppCompatActivity {
-    private ActivityGarden2Binding binding;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
+public class Garden3Activity extends AppCompatActivity {
+    private ActivityGarden3Binding binding;
+
+    private TestViewModel testViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +32,14 @@ public class Garden2Activity extends AppCompatActivity {
 
         Test.getInstance().test(this);
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_garden2);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_garden3);
         binding.txtBind.setText("整单打发的发发的发发的啊发");
         binding.txtBind2.setText("点击跳转到宿主");
         binding.txtBind2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                BridgeManager.getInstance().startActivity(Garden2Activity.this, "com.atar.tencentshadow.activity.SettingIPActivity", new BridgeEnterInteface() {
+                BridgeManager.getInstance().startActivity(Garden3Activity.this, "com.atar.tencentshadow.activity.SettingIPActivity", new BridgeEnterInteface() {
                     @Override
                     public void startActivity(Context context, String s, Class aClass) {
                         try {
@@ -58,10 +62,15 @@ public class Garden2Activity extends AppCompatActivity {
             }
         });
 
-        binding.txtBind3.setOnClickListener(new View.OnClickListener() {
+
+        testViewModel = ViewModelProviders.of(this).get(TestViewModel.class);
+        binding.setViewModel(testViewModel);
+        testViewModel.testString.setValue("dafdsf9090909090f点击大家揭开读卡减肥的司法局");
+
+        testViewModel.testString.observe(this, new Observer<String>() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(v.getContext(),Garden3Activity.class));
+            public void onChanged(String s) {
+                Log.e("Garden3Activity", "onChanged" + s);
             }
         });
     }
