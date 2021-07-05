@@ -1,13 +1,11 @@
 package com.atar.tencentshadow.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -22,12 +20,18 @@ import com.common.framework.download.DownLoadFileBean;
 import com.common.framework.download.DownLoadFileManager;
 import com.common.framework.interfaces.HandlerListener;
 import com.common.framework.plugins.Contans;
+import com.common.framework.plugins.ServerConfig;
 import com.common.framework.services.DownLoadSevice;
+import com.common.framework.stack.ActivityManager;
 import com.common.framework.utils.ServiceUtil;
 import com.common.framework.utils.ShowLog;
 import com.common.framework.widget.CommonToast;
+import com.tencent.shadow.dynamic.host.EnterCallback;
+import com.tencent.shadow.dynamic.host.PluginManager;
+import com.tencent.shadow.sample.introduce_shadow_lib.InitApplication;
 
-import java.io.File;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 public class SettingIPActivity extends AppCompatActivity implements View.OnClickListener, HandlerListener {
 
@@ -36,10 +40,15 @@ public class SettingIPActivity extends AppCompatActivity implements View.OnClick
     private final int INSTALL_PACKAGES_REQUESTCODE = 12334;
     private final int GET_UNKNOWN_APP_SOURCES = 12338;
 
+    public static final int FROM_ID_START_ACTIVITY = 1001;
+
+    private Handler chandler = new Handler();
+
     private EditText edt_text;
     private TextView txt_save;
     private TextView txt_download;
     private TextView txt_download_manager;
+    private TextView txt_to_plugin;
     private String ip = "";
     private String url;
     private String manager_url;
@@ -50,6 +59,7 @@ public class SettingIPActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityManager.getActivityManager().pushActivity(this);
         ServiceUtil.startService(this, DownLoadSevice.class);
         DownLoadSevice.setGetServerConfig(this);
         setContentView(R.layout.activity_setting_i_p);
@@ -58,12 +68,14 @@ public class SettingIPActivity extends AppCompatActivity implements View.OnClick
         txt_save = findViewById(R.id.txt_save);
         txt_download = findViewById(R.id.txt_download);
         txt_download_manager = findViewById(R.id.txt_download_manager);
+        txt_to_plugin = findViewById(R.id.txt_to_plugin);
 
         txt_save.setOnClickListener(this);
         txt_download.setOnClickListener(this);
         txt_download_manager.setOnClickListener(this);
+        txt_to_plugin.setOnClickListener(this);
         setIP();
-        ip = AppConfigModel.getInstance().getString(Contans.HOST_KEY, "192.168.96.84");
+        ip = ServerConfig.Config_IP;
         edt_text.setHint(url);
 
         //请求安装未知应用来源的权限
@@ -88,6 +100,43 @@ public class SettingIPActivity extends AppCompatActivity implements View.OnClick
             case R.id.txt_download_manager:
                 setIP();
                 DownLoadFileManager.getInstance().downLoad(this, this, 2, this.manager_url, 1, true, strDownloadManagerFileName, Config.strDownloadDir);
+                break;
+            case R.id.txt_to_plugin:
+                PluginManager pluginManager = InitApplication.getPluginManager();
+                Bundle bundle = new Bundle();
+
+                String pluginZipPath = Contans.strDownloadDir + Contans.str_u_current_plugin_name;
+                ShowLog.e(TAG, pluginZipPath);
+                bundle.putString("pluginZipPath", pluginZipPath);
+                try {
+                    pluginManager.enter(this, FROM_ID_START_ACTIVITY, bundle, new EnterCallback() {
+                        @Override
+                        public void onShowLoadingView(View view) {
+//                FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//                lp.gravity.
+//                com.atar.tencentshadow.activity.LoadingActivity.this.addContentView(view, lp);//显示Manager传来的Loading页面
+                        }
+
+                        @Override
+                        public void onCloseLoadingView() {
+//                        com.atar.tencentshadow.activity.MainActivity.this.setContentView(linearLayout);
+                        }
+
+                        @Override
+                        public void onEnterComplete() {
+                            chandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ShowLog.e(TAG, "overridePendingTransition");
+                                    overridePendingTransition(R.anim.anim_alpha_121, R.anim.anim_alpha_121);
+//                            ActivityManager.getActivityManager().finishActivity(LoadingActivity.class);
+                                }
+                            });
+                        }
+                    });
+                } catch (Exception e) {
+                    MainActivity.startMainActivity(this);
+                }
                 break;
         }
     }

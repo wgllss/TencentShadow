@@ -1,0 +1,7 @@
+
+{
+"versionName":"1.0.67",
+"updateMinVersionName":"1.0.01",
+"managerLoder_url":"assets/apk/plugins/shadow-manager-debug.apk",
+"pluginZip_url":"assets/apk/plugins/plugin-debug.zip"
+}

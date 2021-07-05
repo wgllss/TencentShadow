@@ -88,9 +88,12 @@ dependencies {
     androidTestImplementation "androidx.work:work-testing:$rootProject.workVersion"
     androidTestImplementation "com.google.truth:truth:$rootProject.truthVersion"
     testImplementation "junit:junit:$rootProject.junitVersion"
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+
+//    implementation project(':common_download_code')
 
     //注意sample-host-lib要用compileOnly编译而不打包在插件中。在packagePlugin任务中配置hostWhiteList允许插件访问宿主的类。
-    compileOnly files("${project(":host-lib").getBuildDir()}/intermediates/aar_main_jar/debug/classes.jar")
+    compileOnly files("${project(":host-plugin-bridge-lib").getBuildDir()}/intermediates/aar_main_jar/debug/classes.jar")
 }
 
 apply plugin: 'com.tencent.shadow.plugin'
@@ -108,6 +111,7 @@ shadow {
                         buildTask = 'assembleDebug'
                         apkName = 'app-debug.apk'
                         apkPath = 'shadow-plugin-roject/app/build/outputs/apk/debug/app-debug.apk'
+                        hostWhiteList = ["com.atar.bridge"]
                     }
                 }
             }
@@ -122,6 +126,7 @@ shadow {
                         buildTask = 'assembleRelease'
                         apkName = 'app-release.apk'
                         apkPath = 'shadow-plugin-roject/app/build/outputs/apk/release/app-release-unsigned.apk'
+                        hostWhiteList = ["com.atar.bridge"]
                     }
                 }
             }
@@ -131,7 +136,7 @@ shadow {
 
         runtimeApkProjectPath = 'shadow-plugin-roject/spruntime'
 
-        version = 4
+        version = 5
         compactVersion = [1, 2, 3]
         uuidNickName = "1.1.5"
     }
