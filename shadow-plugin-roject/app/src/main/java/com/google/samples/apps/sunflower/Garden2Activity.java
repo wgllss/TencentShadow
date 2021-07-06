@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,10 +17,13 @@ import com.atar.bridge.BridgeExitInteface;
 import com.atar.bridge.BridgeManager;
 import com.atar.bridge.Test;
 import com.google.samples.apps.sunflower.databinding.ActivityGarden2Binding;
+import com.google.samples.broadcast.TestReceiver;
 import com.google.samples.manager.ActivityManager;
 
 public class Garden2Activity extends AppCompatActivity {
     private ActivityGarden2Binding binding;
+
+    private TestReceiver testReceiver = new TestReceiver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +68,20 @@ public class Garden2Activity extends AppCompatActivity {
                 startActivity(new Intent(v.getContext(),Garden3Activity.class));
             }
         });
+
+
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.test.receiver.plugin");
+        registerReceiver(testReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(testReceiver!=null){
+            unregisterReceiver(testReceiver);
+        }
     }
 
     @Override

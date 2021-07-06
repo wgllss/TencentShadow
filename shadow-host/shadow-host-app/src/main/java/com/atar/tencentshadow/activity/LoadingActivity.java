@@ -141,6 +141,7 @@ public class LoadingActivity extends FragmentActivity implements DownloadFileLis
         String pluginZipPath = Contans.strDownloadDir + Contans.str_u_current_plugin_name;
         ShowLog.e(TAG, pluginZipPath);
         bundle.putString("pluginZipPath", pluginZipPath);
+        bundle.putString("KEY_ACTIVITY_CLASSNAME", "com.google.samples.apps.sunflower.Garden2Activity");
         try {
             pluginManager.enter(LoadingActivity.this, FROM_ID_START_ACTIVITY, bundle, new EnterCallback() {
                 @Override

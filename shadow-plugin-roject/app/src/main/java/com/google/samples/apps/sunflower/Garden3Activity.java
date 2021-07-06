@@ -13,6 +13,7 @@ import com.atar.bridge.BridgeManager;
 import com.atar.bridge.Test;
 import com.google.samples.apps.sunflower.databinding.ActivityGarden3Binding;
 import com.google.samples.manager.ActivityManager;
+import com.google.samples.service.TestService;
 import com.google.samples.viewmodels.TestViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +32,7 @@ public class Garden3Activity extends AppCompatActivity {
         ActivityManager.getActivityManager().pushActivity(this);
 
         Test.getInstance().test(this);
+
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_garden3);
         binding.txtBind.setText("整单打发的发发的发发的啊发");
@@ -73,6 +75,8 @@ public class Garden3Activity extends AppCompatActivity {
                 Log.e("Garden3Activity", "onChanged" + s);
             }
         });
+
+        binding.setClickAction(new CLickAction());
     }
 
     @Override
@@ -94,5 +98,23 @@ public class Garden3Activity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public class CLickAction {
+
+        public void startServicePlugin(View view) {
+            //插件中启动 插件中 service
+            startService(new Intent(Garden3Activity.this, TestService.class));
+        }
+
+        public void startBroadcastReceiverPlugin(View view) {
+            try {
+                Intent intent = new Intent("com.test.receiver.plugin");
+                sendBroadcast(intent);
+            } catch (Exception e) {
+
+            }
+        }
+
     }
 }

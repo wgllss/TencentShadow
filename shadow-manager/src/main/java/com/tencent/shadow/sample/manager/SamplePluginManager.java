@@ -57,7 +57,6 @@ public class SamplePluginManager extends FastPluginManager {
     public void enter(final Context context, long fromId, Bundle bundle, final EnterCallback callback) {
         if (fromId == Constant.FROM_ID_START_ACTIVITY) {
             bundle.putString(Constant.KEY_PLUGIN_PART_KEY, "sample-plugin");
-            bundle.putString(Constant.KEY_ACTIVITY_CLASSNAME, "com.google.samples.apps.sunflower.Garden2Activity");
             onStartActivity(context, bundle, callback);
         } else if (fromId == Constant.FROM_ID_CALL_SERVICE) {
             callPluginService(context, bundle);
@@ -117,7 +116,7 @@ public class SamplePluginManager extends FastPluginManager {
 //        final String pluginZipPath = "/data/local/tmp/plugin-debug.zip";
         final String pluginZipPath = bundle.getString(Constant.KEY_PLUGIN_ZIP_PATH);
         final String partKey = "sample-plugin";
-        final String className = "com.tencent.shadow.sample.plugin.MyService";
+        final String className = bundle.getString(Constant.KEY_ACTIVITY_CLASSNAME);
 
         Intent pluginIntent = new Intent();
         pluginIntent.setClassName(context.getPackageName(), className);

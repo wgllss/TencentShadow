@@ -25,7 +25,9 @@
         <variable
             name="viewModel"
             type="com.google.samples.viewmodels.TestViewModel" />
-
+        <variable
+            name="clickAction"
+            type="com.google.samples.apps.sunflower.Garden3Activity.CLickAction" />
     </data>
 
     <LinearLayout
@@ -54,6 +56,31 @@
             android:layout_gravity="center"
             android:text="修改插件中内容"
             android:layout_marginTop="50dp"
+            android:textSize="20dp"
+            android:textColor="#FFFFFF"
+            android:background="#FF0000"/>
+
+        <TextView
+            android:id="@+id/txt_bind_service"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="启动插件中service"
+            android:layout_marginTop="50dp"
+            android:onClick="@{clickAction::startServicePlugin}"
+            android:textSize="20dp"
+            android:textColor="#FFFFFF"
+            android:background="#FF0000"/>
+        <TextView
+            android:id="@+id/txt_bind_board"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="启动插件中广播"
+            android:layout_marginTop="50dp"
+            android:onClick="@{clickAction::startBroadcastReceiverPlugin}"
             android:textSize="20dp"
             android:textColor="#FFFFFF"
             android:background="#FF0000"/>

@@ -41,6 +41,7 @@ public class SettingIPActivity extends AppCompatActivity implements View.OnClick
     private final int GET_UNKNOWN_APP_SOURCES = 12338;
 
     public static final int FROM_ID_START_ACTIVITY = 1001;
+    public static final int FROM_ID_CALL_SERVICE = 1002;
 
     private Handler chandler = new Handler();
 
@@ -49,6 +50,7 @@ public class SettingIPActivity extends AppCompatActivity implements View.OnClick
     private TextView txt_download;
     private TextView txt_download_manager;
     private TextView txt_to_plugin;
+    private TextView txt_to_plugin_service;
     private String ip = "";
     private String url;
     private String manager_url;
@@ -69,11 +71,15 @@ public class SettingIPActivity extends AppCompatActivity implements View.OnClick
         txt_download = findViewById(R.id.txt_download);
         txt_download_manager = findViewById(R.id.txt_download_manager);
         txt_to_plugin = findViewById(R.id.txt_to_plugin);
+        txt_to_plugin_service = findViewById(R.id.txt_to_plugin_service);
 
         txt_save.setOnClickListener(this);
         txt_download.setOnClickListener(this);
         txt_download_manager.setOnClickListener(this);
         txt_to_plugin.setOnClickListener(this);
+        txt_to_plugin_service.setOnClickListener(this);
+
+
         setIP();
         ip = ServerConfig.Config_IP;
         edt_text.setHint(url);
@@ -108,8 +114,47 @@ public class SettingIPActivity extends AppCompatActivity implements View.OnClick
                 String pluginZipPath = Contans.strDownloadDir + Contans.str_u_current_plugin_name;
                 ShowLog.e(TAG, pluginZipPath);
                 bundle.putString("pluginZipPath", pluginZipPath);
+                bundle.putString("KEY_ACTIVITY_CLASSNAME", "com.google.samples.apps.sunflower.Garden2Activity");
                 try {
                     pluginManager.enter(this, FROM_ID_START_ACTIVITY, bundle, new EnterCallback() {
+                        @Override
+                        public void onShowLoadingView(View view) {
+//                FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//                lp.gravity.
+//                com.atar.tencentshadow.activity.LoadingActivity.this.addContentView(view, lp);//显示Manager传来的Loading页面
+                        }
+
+                        @Override
+                        public void onCloseLoadingView() {
+//                        com.atar.tencentshadow.activity.MainActivity.this.setContentView(linearLayout);
+                        }
+
+                        @Override
+                        public void onEnterComplete() {
+                            chandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ShowLog.e(TAG, "overridePendingTransition");
+                                    overridePendingTransition(R.anim.anim_alpha_121, R.anim.anim_alpha_121);
+//                            ActivityManager.getActivityManager().finishActivity(LoadingActivity.class);
+                                }
+                            });
+                        }
+                    });
+                } catch (Exception e) {
+                    MainActivity.startMainActivity(this);
+                }
+                break;
+            case R.id.txt_to_plugin_service:
+                try {
+                    PluginManager pluginManager1 = InitApplication.getPluginManager();
+                    Bundle bundle1 = new Bundle();
+
+                    String pluginZipPath1 = Contans.strDownloadDir + Contans.str_u_current_plugin_name;
+                    ShowLog.e(TAG, pluginZipPath1);
+                    bundle1.putString("pluginZipPath", pluginZipPath1);
+                    bundle1.putString("KEY_ACTIVITY_CLASSNAME", "com.google.samples.service.TestService");
+                    pluginManager1.enter(this, FROM_ID_CALL_SERVICE, bundle1, new EnterCallback() {
                         @Override
                         public void onShowLoadingView(View view) {
 //                FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
