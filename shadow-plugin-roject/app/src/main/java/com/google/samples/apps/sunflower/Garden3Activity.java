@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.atar.bridge.BridgeEnterInteface;
 import com.atar.bridge.BridgeExitInteface;
 import com.atar.bridge.BridgeManager;
 import com.atar.bridge.Test;
@@ -40,20 +39,13 @@ public class Garden3Activity extends AppCompatActivity {
         binding.txtBind2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                BridgeManager.getInstance().startActivity(Garden3Activity.this, "com.atar.tencentshadow.activity.SettingIPActivity", new BridgeEnterInteface() {
-                    @Override
-                    public void startActivity(Context context, String s, Class aClass) {
-                        try {
-                            Intent intent = new Intent(context, aClass);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-//                    onBackPressed();
+                try {
+                    Intent intent = new Intent(Garden3Activity.this, BridgeManager.getInstance().getClassByHost("com.atar.tencentshadow.activity.SettingIPActivity"));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 

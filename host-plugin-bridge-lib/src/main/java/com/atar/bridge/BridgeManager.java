@@ -23,15 +23,14 @@ public class BridgeManager {
         this.bridgeInteface = bridgeInteface;
     }
 
-    public void startActivity(Context context, String className, BridgeEnterInteface bridgeEnterInteface) {
+    //获取宿主里面的类
+    public Class getClassByHost(String className) {
         try {
             Log.e(TAG, "className : " + className);
             Class cls = Class.forName(className);
-            if (bridgeEnterInteface != null) {
-                bridgeEnterInteface.startActivity(context, className, cls);
-            }
+            return cls;
         } catch (Exception e) {
-            e.printStackTrace();
+            return null;
         }
     }
 
