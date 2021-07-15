@@ -4,7 +4,7 @@
     <application>
         <service
             android:name=".MainPluginProcessService"
-           />
+            android:process=":plugin" />
 
         <!--container 注册
           注意configChanges需要全注册
@@ -19,7 +19,7 @@
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|screenLayout|fontScale|uiMode|orientation|screenSize|smallestScreenSize|layoutDirection"
             android:hardwareAccelerated="true"
             android:theme="@style/PluginContainerActivity"
-         />
+            android:process=":plugin" />
 
         <activity
             android:name="com.tencent.shadow.sample.runtime.PluginSingleInstance1ProxyActivity"
@@ -28,7 +28,7 @@
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|screenLayout|fontScale|uiMode|orientation|screenSize|smallestScreenSize|layoutDirection"
             android:hardwareAccelerated="true"
             android:theme="@style/PluginContainerActivity"
-           />
+            android:process=":plugin" />
 
         <activity
             android:name="com.tencent.shadow.sample.runtime.PluginSingleTask1ProxyActivity"
@@ -37,7 +37,7 @@
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|screenLayout|fontScale|uiMode|orientation|screenSize|smallestScreenSize|layoutDirection"
             android:hardwareAccelerated="true"
             android:theme="@style/PluginContainerActivity"
-           />
+            android:process=":plugin" />
 
         <provider
             android:authorities="com.tencent.shadow.contentprovider.authority.dynamic1"
