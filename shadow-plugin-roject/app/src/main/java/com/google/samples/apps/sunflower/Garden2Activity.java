@@ -3,12 +3,9 @@ package com.google.samples.apps.sunflower;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -16,6 +13,7 @@ import com.atar.bridge.BridgeExitInteface;
 import com.atar.bridge.BridgeManager;
 import com.atar.bridge.Test;
 import com.google.samples.apps.sunflower.databinding.ActivityGarden2Binding;
+import com.google.samples.bridgebind.BridgebindserviceUtil;
 import com.google.samples.broadcast.TestReceiver;
 import com.google.samples.manager.ActivityManager;
 
@@ -59,6 +57,13 @@ public class Garden2Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(v.getContext(),Garden3Activity.class));
+            }
+        });
+
+        binding.txtBind5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BridgebindserviceUtil.getInstance().processBridge(v.getContext());
             }
         });
 

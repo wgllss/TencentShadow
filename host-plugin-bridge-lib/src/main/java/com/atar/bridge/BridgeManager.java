@@ -1,6 +1,5 @@
 package com.atar.bridge;
 
-import android.content.Context;
 import android.util.Log;
 
 /**

@@ -1,7 +1,9 @@
 package com.common.framework.stack;
 
 import android.app.Activity;
+import android.content.Context;
 
+import java.lang.reflect.Method;
 import java.util.Stack;
 
 public class ActivityManager {
@@ -368,6 +370,30 @@ public class ActivityManager {
                 popAllActivity();
                 android.os.Process.killProcess(android.os.Process.myPid());
                 System.exit(0); // 常规java、c#的标准退出法，返回值为0代表正常退出
+            }
+        }.start();
+    }
+
+    /**
+     * 强制停止应用程序
+     *
+     * @param pkgName
+     */
+    public void forceStopPackage(String pkgName, Context context) throws Exception {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    popAllActivity();
+                    android.app.ActivityManager am = (android.app.ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+                    Method method = Class.forName("android.app.ActivityManager").getMethod("forceStopPackage", String.class);
+                    method.invoke(am, pkgName);
+                    android.os.Process.killProcess(android.os.Process.myPid());
+                    System.exit(0); // 常规java、c#的标准退出法，返回值为0代表正常退出
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }.start();
     }

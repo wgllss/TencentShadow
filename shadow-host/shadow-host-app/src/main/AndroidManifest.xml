@@ -39,6 +39,8 @@
         <activity android:name=".activity.SettingIPActivity"
             android:theme="@style/translucent"></activity>
 
+        <service android:name="com.atar.tencentshadow.services.BridgeAidlServeice"/>
+
     </application>
 
 </manifest>

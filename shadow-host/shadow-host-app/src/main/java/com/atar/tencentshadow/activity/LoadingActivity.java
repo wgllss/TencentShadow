@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 
 import com.atar.bridge.Test;
 import com.atar.tencentshadow.R;
+import com.atar.tencentshadow.services.BridgeAidlServeice;
 import com.common.framework.plugins.Contans;
 import com.common.framework.plugins.DownloadFileListener;
 import com.common.framework.plugins.DownloadPluginManager;
@@ -80,6 +81,7 @@ public class LoadingActivity extends FragmentActivity implements DownloadFileLis
 //        setContentView(R.layout.welcome);
 
         ServiceUtil.startService(this, DownLoadSevice.class);
+        ServiceUtil.startService(this, BridgeAidlServeice.class);
         DownloadPluginManager.getInstance()
                 .init()
                 .setIsHasNewFileListener(this)
