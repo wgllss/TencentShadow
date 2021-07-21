@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -12,6 +13,14 @@ import android.widget.Toast;
 import com.atar.bridge.BridgeExitInteface;
 import com.atar.bridge.BridgeManager;
 import com.atar.bridge.Test;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.core.ImagePipeline;
+import com.facebook.imagepipeline.image.ImageInfo;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.google.samples.apps.sunflower.databinding.ActivityGarden2Binding;
 import com.google.samples.bridgebind.BridgebindserviceUtil;
 import com.google.samples.broadcast.TestReceiver;
@@ -56,7 +65,7 @@ public class Garden2Activity extends AppCompatActivity {
         binding.txtBind3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(v.getContext(),Garden3Activity.class));
+                startActivity(new Intent(v.getContext(), Garden3Activity.class));
             }
         });
 
@@ -68,16 +77,18 @@ public class Garden2Activity extends AppCompatActivity {
         });
 
 
-
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.test.receiver.plugin");
         registerReceiver(testReceiver, intentFilter);
+        
+        setFrescoImg(binding.tenantlogo, Uri.parse("https://img1.baidu.com/it/u=686675228,2481849275&fm=26&fmt=auto&gp=0.jpg"), true);
+//        binding.tenantlogo.setImageURI();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(testReceiver!=null){
+        if (testReceiver != null) {
             unregisterReceiver(testReceiver);
         }
     }
@@ -101,5 +112,34 @@ public class Garden2Activity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void setFrescoImg(SimpleDraweeView simpleDraweeView, Uri uri, boolean reLoad) {
+//        int size = ScreenUtils.dp2px(60);
+        ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
+//                .setResizeOptions(new ResizeOptions(size, size))
+                .setProgressiveRenderingEnabled(true)
+                .build();
+        DraweeController controller = Fresco.newDraweeControllerBuilder()
+                .setUri(uri)
+                .setImageRequest(request)
+                .setTapToRetryEnabled(true)
+                .setAutoPlayAnimations(true)
+                .setOldController(simpleDraweeView.getController())
+                .setControllerListener(new BaseControllerListener<ImageInfo>() {
+
+                    @Override
+                    public void onFailure(String id, Throwable throwable) {
+                        if (reLoad) {
+                            ImagePipeline imagePipeline = Fresco.getImagePipeline();
+                            imagePipeline.evictFromMemoryCache(uri);
+                            imagePipeline.evictFromDiskCache(uri);
+                            imagePipeline.evictFromCache(uri);
+                            imagePipeline.resume();
+                        }
+                    }
+                })
+                .build();
+        simpleDraweeView.setController(controller);
     }
 }

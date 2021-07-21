@@ -8,6 +8,11 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        ndk {
+//根据需要 自行选择添加的对应cpu类型的.so库。
+            abiFilters 'armeabi'//, 'armeabi-v7a', 'arm64-v8a'//, 'x86'//, 'x86_64'
+// 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
     }
     buildTypes {
         debug {
@@ -33,4 +38,5 @@ dependencies {
     //下面这行依赖是为了防止在proguard的时候找不到LoaderFactory接口
     compileOnly "com.tencent.shadow.dynamic:host:$shadow_version"
     compileOnly files("${project(":host-plugin-bridge-lib").getBuildDir()}/intermediates/aar_main_jar/debug/classes.jar")
+
 }

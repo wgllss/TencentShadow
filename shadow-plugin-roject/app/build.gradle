@@ -33,6 +33,12 @@ android {
         versionCode 1
         versionName "0.1.6"
         vectorDrawables.useSupportLibrary true
+
+        ndk {
+//根据需要 自行选择添加的对应cpu类型的.so库。
+            abiFilters 'arm64-v8a'//, 'armeabi-v7a', 'arm64-v8a'//, 'x86'//, 'x86_64'
+// 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
     }
     buildTypes {
         release {
@@ -94,6 +100,10 @@ dependencies {
 
     //注意sample-host-lib要用compileOnly编译而不打包在插件中。在packagePlugin任务中配置hostWhiteList允许插件访问宿主的类。
     compileOnly files("${project(":host-plugin-bridge-lib").getBuildDir()}/intermediates/aar_main_jar/debug/classes.jar")
+
+    implementation 'com.facebook.fresco:fresco:1.1.0'
+    implementation 'com.facebook.fresco:webpsupport:1.1.0'
+    implementation 'com.facebook.fresco:animated-gif:1.1.0'
 }
 
 apply plugin: 'com.tencent.shadow.plugin'
