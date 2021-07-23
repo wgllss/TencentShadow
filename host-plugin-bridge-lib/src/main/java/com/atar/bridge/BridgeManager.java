@@ -13,13 +13,20 @@ public class BridgeManager {
 
     private static BridgeManager bridgeManager = new BridgeManager();
     private BridgeExitInteface bridgeInteface;
+    private BridgeEventBusInteface bridgeEventBusInteface;
 
     public static BridgeManager getInstance() {
         return bridgeManager;
     }
 
-    public void initBridgeInteface(BridgeExitInteface bridgeInteface) {
+    public BridgeManager initBridgeInteface(BridgeExitInteface bridgeInteface) {
         this.bridgeInteface = bridgeInteface;
+        return this;
+    }
+
+    public BridgeManager addBridgeEventBusInteface(BridgeEventBusInteface bridgeEventBusInteface) {
+        this.bridgeEventBusInteface = bridgeEventBusInteface;
+        return this;
     }
 
     //获取宿主里面的类
@@ -43,6 +50,30 @@ public class BridgeManager {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void register(Object subscriber) {
+        if (bridgeEventBusInteface != null) {
+            bridgeEventBusInteface.register(subscriber);
+        }
+    }
+
+    public void isRegistered(Object subscriber) {
+        if (bridgeEventBusInteface != null) {
+            bridgeEventBusInteface.isRegistered(subscriber);
+        }
+    }
+
+    public void unregister(Object subscriber) {
+        if (bridgeEventBusInteface != null) {
+            bridgeEventBusInteface.unregister(subscriber);
+        }
+    }
+
+    public void post(Object subscriber) {
+        if (bridgeEventBusInteface != null) {
+            bridgeEventBusInteface.post(subscriber);
         }
     }
 

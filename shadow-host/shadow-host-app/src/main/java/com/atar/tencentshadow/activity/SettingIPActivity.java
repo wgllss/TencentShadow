@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ import com.tencent.shadow.sample.introduce_shadow_lib.InitApplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import dalvik.system.PathClassLoader;
 
 public class SettingIPActivity extends AppCompatActivity implements View.OnClickListener, HandlerListener {
 
@@ -87,6 +89,9 @@ public class SettingIPActivity extends AppCompatActivity implements View.OnClick
         //请求安装未知应用来源的权限
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission
                 .READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, INSTALL_PACKAGES_REQUESTCODE);
+        getPluginClass();
+
+//        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -245,4 +250,23 @@ public class SettingIPActivity extends AppCompatActivity implements View.OnClick
             }
         }
     }
+
+    private void getPluginClass() {
+        try {
+            String path = getFilesDir().getPath()+"/ShadowPluginManager/UnpackedPlugin/sample-manager/oDex/0C3B3B16-D0F7-4594-ACB4-238C391116E7_odex/app-debug.dex";
+            PathClassLoader classLoader = new PathClassLoader(path,getClassLoader());
+            Class cls= classLoader.loadClass("com.google.samples.manager.ActivityManager");
+//            String className = "com.google.samples.manager.ActivityManager";
+//            Class cls = Class.forName(className);
+            Log.e(TAG, cls.getSimpleName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onAdjustSkuPrice(MessageEvent messageEvent) {
+//
+//    }
+
 }

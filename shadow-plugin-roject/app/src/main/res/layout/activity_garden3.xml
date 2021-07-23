@@ -84,6 +84,18 @@
             android:textSize="20dp"
             android:textColor="#FFFFFF"
             android:background="#FF0000"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="eventbus 发送数据"
+            android:layout_marginTop="50dp"
+            android:onClick="@{clickAction::postev}"
+            android:textSize="20dp"
+            android:textColor="#FFFFFF"
+            android:background="#FF0000"/>
     </LinearLayout>
 
 </layout>

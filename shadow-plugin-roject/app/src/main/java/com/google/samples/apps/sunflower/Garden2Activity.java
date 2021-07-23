@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.atar.bridge.BridgeExitInteface;
 import com.atar.bridge.BridgeManager;
+import com.atar.bridge.MessageEvent;
 import com.atar.bridge.Test;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.controller.BaseControllerListener;
@@ -25,6 +27,11 @@ import com.google.samples.apps.sunflower.databinding.ActivityGarden2Binding;
 import com.google.samples.bridgebind.BridgebindserviceUtil;
 import com.google.samples.broadcast.TestReceiver;
 import com.google.samples.manager.ActivityManager;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 
 public class Garden2Activity extends AppCompatActivity {
     private ActivityGarden2Binding binding;
@@ -83,6 +90,8 @@ public class Garden2Activity extends AppCompatActivity {
         
         setFrescoImg(binding.tenantlogo, Uri.parse("https://img1.baidu.com/it/u=686675228,2481849275&fm=26&fmt=auto&gp=0.jpg"), true);
 //        binding.tenantlogo.setImageURI();
+
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -141,5 +150,10 @@ public class Garden2Activity extends AppCompatActivity {
                 })
                 .build();
         simpleDraweeView.setController(controller);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MessageEvent event) {
+        Log.e("Garden2Activity", "onMessageEvent");
     }
 }

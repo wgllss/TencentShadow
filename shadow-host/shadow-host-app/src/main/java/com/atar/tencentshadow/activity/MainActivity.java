@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.common.framework.stack.ActivityManager;
 
+
 public class MainActivity extends Activity {
 
     private String TAG = MainActivity.class.getSimpleName();
@@ -39,7 +40,9 @@ public class MainActivity extends Activity {
         });
         linearLayout.addView(settingButton);
         setContentView(linearLayout);
+
     }
+
 
     public static void startMainActivity(Context context) {
         context.startActivity(new Intent(context, MainActivity.class));

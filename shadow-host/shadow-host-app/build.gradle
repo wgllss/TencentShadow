@@ -38,5 +38,5 @@ dependencies {
     implementation project(':common_download_code')
     implementation project(':host-plugin-bridge-lib')
     implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
-    compile files("${project(":host-plugin-bridge-lib").getBuildDir()}/intermediates/aar_main_jar/debug/classes.jar")
+//    compile files("${project(":host-plugin-bridge-lib").getBuildDir()}/intermediates/aar_main_jar/debug/classes.jar")
 }

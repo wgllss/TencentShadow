@@ -36,7 +36,7 @@ android {
 
         ndk {
 //根据需要 自行选择添加的对应cpu类型的.so库。
-            abiFilters 'arm64-v8a'//, 'armeabi-v7a', 'arm64-v8a'//, 'x86'//, 'x86_64'
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'//, 'x86'//, 'x86_64'
 // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
         }
     }
@@ -104,6 +104,7 @@ dependencies {
     implementation 'com.facebook.fresco:fresco:1.1.0'
     implementation 'com.facebook.fresco:webpsupport:1.1.0'
     implementation 'com.facebook.fresco:animated-gif:1.1.0'
+    implementation 'org.greenrobot:eventbus:3.2.0'
 }
 
 apply plugin: 'com.tencent.shadow.plugin'

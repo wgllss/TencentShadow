@@ -9,11 +9,16 @@ import android.widget.Toast;
 
 import com.atar.bridge.BridgeExitInteface;
 import com.atar.bridge.BridgeManager;
+import com.atar.bridge.MessageEvent;
 import com.atar.bridge.Test;
 import com.google.samples.apps.sunflower.databinding.ActivityGarden3Binding;
 import com.google.samples.manager.ActivityManager;
 import com.google.samples.service.TestService;
 import com.google.samples.viewmodels.TestViewModel;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -69,6 +74,13 @@ public class Garden3Activity extends AppCompatActivity {
         });
 
         binding.setClickAction(new CLickAction());
+
+
+//        BridgeManager.getInstance().register(this);
+
+        EventBus.getDefault().register(this);
+
+
     }
 
     @Override
@@ -108,5 +120,14 @@ public class Garden3Activity extends AppCompatActivity {
             }
         }
 
+        public void postev(View view){
+            EventBus.getDefault().post(new MessageEvent());
+        }
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MessageEvent event) {
+        Log.e("Garden3Activity", "onMessageEvent");
     }
 }
